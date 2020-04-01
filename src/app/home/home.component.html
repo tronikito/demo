@@ -1,0 +1,14 @@
+<div class="home">
+  <div class="title"></div>
+  <div class="game" *ngFor="let gameList of games; let i = index;">
+    <div class="gameDescription" [ngStyle]="!this.gameList.success && {'background': 'rgba(215, 44, 44, 0.4)'} || 
+                                            this.gameList.success && {'background': 'rgba(241, 240, 240, 0.603)'}">
+      <p>{{gameList.tittle}}</p>
+      <p>{{gameList.status}}</p>
+    </div>
+    <div class="gameImage" [ngStyle]="!this.gameList.success && {'background': 'rgba(215, 44, 44, 0.4)'}">
+      <img src="{{gameList.preview}}" width="250"/>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>

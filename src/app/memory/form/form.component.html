@@ -1,0 +1,14 @@
+<div class="formQuestion">
+    <div class="ask">
+        <p>{{question.ask}}</p>
+    </div>
+    <div class="question" (click)="qselect(0)">
+        <p>{{question.answers[0]}}</p>
+    </div>
+    <div class="question" (click)="qselect(1)">
+        <p>{{question.answers[1]}}</p>
+    </div>
+    <div class="question" (click)="qselect(2)">
+        <p>{{question.answers[2]}}</p>
+    </div>
+</div>

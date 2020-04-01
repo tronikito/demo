@@ -1,0 +1,110 @@
+[
+    {
+        "qID": 0,
+        "ask": "¿En qué estación los días son más largos que las noches?",
+        "answers": ["En primavera","En invierno","En verano"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 1,
+        "ask": "¿En qué estación las noches son más largas que los días?",
+        "answers": ["En invierno","En primavera","En todas"],
+        "rcorrect": 0,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 2,
+        "ask": "¿Qué planeta es el más cercano al Sol?",
+        "answers": ["La tierra","Mercurio","Saturno"],
+        "rcorrect": 1,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 3,
+        "ask": "¿De qué se alimentan los animales herbívoros?",
+        "answers": ["De plantas","De otros animales","De todo tipo de comida"],
+        "rcorrect": 0,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 4,
+        "ask": "Señala el animal ovíparo de la siguiente lista",
+        "answers": ["Gorila","Gallina","Conejo"],
+        "rcorrect": 1,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 5,
+        "ask": "Indica cuál de los siguientes animales tiene huesos",
+        "answers": ["Gusano","Araña","Lobo"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 6,
+        "ask": "¿De qué se alimentan los animales carnívoros?",
+        "answers": ["De plantas","De peces","De otros animales"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 7,
+        "ask": "¿Qué caracteriza a un animal ovíparo?",
+        "answers": ["Come todo tipo de alimentos","Ha nacido de un huevo","Solo come plantas"],
+        "rcorrect": 1,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 8,
+        "ask": "Animal que vive en el agua",
+        "answers": ["León","Mosca","Salmón"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 9,
+        "ask": "Cuando los peces viven y se desplazan en grupo, se dice que son...",
+        "answers": ["Una nube de peces","Una manada de peces","Un banco de peces"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 10,
+        "ask": "Si un animal es invertebrado, ¿qué le falta?",
+        "answers": ["Escamas","Alas","Huesos"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    },
+    {
+        "qID": 11,
+        "ask": "¿Cuantas estaciones tiene el año?",
+        "answers": ["1","3","4"],
+        "rcorrect": 2,
+        "box": "",
+        "status": false, 
+        "success": false
+    }
+]

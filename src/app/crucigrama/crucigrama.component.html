@@ -1,0 +1,44 @@
+<div class="crucigrama">
+    <div class="crucigramaPos" *ngIf="datos" [ngStyle]="{
+        'width': crucigrama.tamanox + 'px',
+        'height': crucigrama.tamanoy + 'px'
+    }">
+        <div *ngFor="let letras of datos; let r = index;">
+            <div *ngFor="let letra of letras; let r = index;">
+                <div class="crucigramaLetra"
+                [ngStyle]="{
+                    'left': letra.posX + 'px',
+                    'top': letra.posY + 'px',
+                    'width': letra.tamano + 'px',
+                    'height': letra.tamano + 'px',
+                    'font-size': letra.fontsize + 'px',
+                    'background': letra.background,
+                    'border-radius': letra.borderRadius + 'px',
+                    'border': letra.border + 'px solid ' + letra.bcolor,
+                    'box-sizing': 'border-box',
+                    'border-width': letra.btop + 'px ' + letra.bright + 'px ' + letra.bbot + 'px ' + letra.bleft + 'px',
+                    'color': letra.color,
+                    '-webkit-text-stroke': letra.pborde
+                    }">
+                    <p *ngIf="letra.numero == null">{{letra.valor}}</p>
+                    <p *ngIf="letra.numero > 0">{{letra.numero}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="tiempo" [ngStyle]="{
+            'top': (crucigrama.tamanoy) + 'px',
+            'left': '10px'
+        }">
+            Load time: {{tiempoR}}
+        </div>
+        <div class="crear" (click)="crearTablero()" [ngStyle]="{
+            'top': (crucigrama.tamanoy) + 'px',
+            'left':(crucigrama.tamanox - 143) + 'px'
+        }">
+            Crear nuevo tablero
+        </div>
+    </div>
+    <div *ngFor="let p of lista; let r = index;">
+        <p>{{p.numero}} {{p.palabra}}</p>
+    </div>
+</div>

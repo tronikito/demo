@@ -1,0 +1,17 @@
+<div class="memory"> <!-- [style.backgroundImage]="'url(' + getBackGround('url') + ')'" -->
+    <div class="boxCard">
+        <div class="caja" *ngFor="let question of generateQuestion; let i = index;">
+            <app-carta [question]="question"></app-carta>
+        </div>
+        <div class="botonStart" (click)="add()"
+            [ngStyle]="this.botom && {'display': 'enable'} || !this.botom && {'display': 'none'}">
+            <p>Start</p>
+        </div>
+        <div class="formQuestionMain" *ngIf="sendQuestion === true">
+            <app-form [question]="this.reciveQuestionData"></app-form>
+        </div>
+        <div class="formQuestionEnd" *ngIf="endGame">
+            <p> FELICIDADES <br /> Tu Puntuación es de: {{this.MemoryService.rcorrect}} </p>
+        </div>
+    </div>
+</div>

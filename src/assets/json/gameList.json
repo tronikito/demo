@@ -1,0 +1,23 @@
+[
+    {
+        "gID": 0,
+        "tittle": "Memory",
+        "status": "Completo",
+        "success": true,
+        "preview": "../assets/images/miniatura0.png"
+    },
+    {
+        "gID": 1,
+        "tittle": "Crucigrama",
+        "status": "Solo tablero",
+        "success": false,
+        "preview": "../assets/images/miniatura1.png"
+    },
+    {
+        "gID": 2,
+        "tittle": "Sopa de letras",
+        "status": "Completo",
+        "success": true,
+        "preview": "../assets/images/miniatura2.png"
+    }
+]

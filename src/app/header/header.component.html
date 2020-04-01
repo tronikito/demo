@@ -1,0 +1,18 @@
+<div [className]="this.classHeader">
+    <div class="menu1" *ngIf="this.classHeader">{{this.classHeader.slice(6)}}</div>
+    <div class="menu2">
+        <a href="sopa">
+            <div class="cartaMenu" [style.background-image]="'url(' + getBackGround('sopa') + ')'">
+            </div>
+        </a>
+        <a href="crucigrama">
+            <div class="cartaMenu" [style.background-image]="'url(' + getBackGround('crucigrama') + ')'"></div>
+        </a>
+        <a href="memory">
+            <div class="cartaMenu" [style.background-image]="'url(' + getBackGround('memory') + ')'"></div>
+        </a>
+        <a href="">
+            <div class="cartaMenu" [style.background-image]="'url(' + getBackGround('home') + ')'"></div>
+        </a>
+    </div>
+</div>

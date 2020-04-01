@@ -1,0 +1,95 @@
+<div class="sopa">
+    <!-- form -->
+    <div class="sopaPos" *ngIf="form">
+        <div class="formcentrar">
+            <h2>Sopa de letras</h2>
+            <table>
+                <tr>
+                    <td class="formizq">Tamaño ancho 'px'</td>
+                    <td class="formder"><input class="inputtext" type="number" [formControl]="tamanox" required
+                            pattern="[0-9]?[0-9][0-9][0-9]" min="320" max="1920" /> 320 to 1920</td>
+                </tr>
+                <tr>
+                    <td class="formizq">Tamaño largo 'px'</td>
+                    <td class="formder"><input class="inputtext" type="number" [formControl]="tamanoy" required
+                            pattern="[0-9]?[0-9][0-9][0-9]" min="320" max="1920" /> 320 to 1920</td>
+                </tr>
+                <tr>
+                    <td class="formizq">Número de columnas</td>
+                    <td class="formder"><input class="inputtext" type="number" [formControl]="columnas" required
+                            pattern="[0-9][0-9]" min="10" max="99" /></td>
+                </tr>
+                <tr>
+                    <td class="formizq">Número de palabras</td>
+                    <td class="formder"><input class="inputtext" type="number" [formControl]="palabrasSopa" required
+                            pattern="[0-9]?[0-9]" min="5" max="{{palabros.length}}" />max: {{palabros.length}}</td>
+                </tr>
+                <tr>
+                    <td class="formizq">Espacio entre casillas 'px'</td>
+                    <td class="formder"><input class="inputtext" type="number" [formControl]="margen" required
+                            pattern="[0-9][0-9]" min="0" max="20" /> 0 to 20</td>
+                </tr>
+                <!--<tr>
+                    <td class="formizq">Margen bordes porcentaje</td>
+                    <td class="formder"><input class="inputtext" type="number" [formControl]="margenLateral" required
+                            pattern="[0-9]?[0-9]" min="0" max="40" /> 0 to 40</td>
+                </tr>-->
+                <tr>
+                    <td class="formizq">Color</td>
+                    <td class="formder"><input class="inputtext" type="text" [formControl]="colorBorde" required />
+                    </td>
+                </tr>
+                <br />
+                <tr>
+                    <td colspan="2" style="text-align: center;"><input type="button" value="¡Empezar!"
+                            (click)="sendForm()" [disabled]="propiedades.invalid" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- form -->
+    <!-- sopa -->
+    <div class="formpropieties" *ngIf="datos && empezar" [ngStyle]="{
+        'padding-top': ((tamanox.value/100)*margenLateral.value)/2 + 'px',
+        'padding-left': tamanox.value + tamanox.value/1.6 + 'px',
+        'width': tamanox.value/2 + 'px',
+        'height': tamanoy.value/1.2 + 'px',
+        'font-size': tamanoy.value/lista.length*0.6 + 'px'
+        }">
+        <!-- <p [ngStyle]="{'font-size': ((tamanox.value*0.8)/(lista.length)) + 'px'}">Lista palabras</p>-->
+        <span *ngFor="let pal of lista; let r = index;" [ngStyle]="{
+            'height': ((tamanoy.value)/(lista.length)) + 'px',
+            'text-decoration': pal.estado,
+            'font-family': 'Verdana'}">{{pal.palabra}}<br /></span>
+    </div>
+    <div class="sopaPos" *ngIf="datos && empezar" [ngStyle]="{
+        'width': tamanox.value + 'px',
+        'height': tamanoy.value + 'px',
+        '-webkit-box-shadow': '0px 0px 30px 25px rgba(0,0,0,1)',
+        '-moz-box-shadow': '0px 0px 30px 25px rgba(0,0,0,1)',
+        'box-shadow': '0px 0px 30px 25px rgba(0,0,0,1)',
+        'background': 'white'
+    }">
+        <div class="sopaFilas" *ngFor="let letras of datos; let r = index;">
+            <div class="sopaColumnas" *ngFor="let letra of letras; let r = index;">
+                <div class="sopaLetra"
+                    [ngStyle]="{
+                    'left': letra.posX + 'px',
+                    'top': letra.posY + 'px',
+                    'width': letra.tamano + 'px',
+                    'height': letra.tamano + 'px',
+                    'font-size': letra.fontsize + 'px',
+                    'border-radius': letra.borderRadius + 'px',
+                    'border': letra.border + 'px solid ' + letra.bcolor,
+                    'box-sizing': 'border-box',
+                    'border-width': letra.btop + 'px ' + letra.bright + 'px ' + letra.bbot + 'px ' + letra.bleft + 'px'}"
+                    (click)="comprobar(letra.rpos)">
+                    <p>{{letra.valor}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- sopa-->
+</div>
+<!--'left': tamanox.value + tamanox.value/1.4 + 'px',-->
