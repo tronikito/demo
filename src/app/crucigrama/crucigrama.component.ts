@@ -22,13 +22,14 @@ export class CrucigramaComponent implements OnInit {
               public StylesService: StylesService) {
                 this.crucigrama.tamanox = 640;
                 this.crucigrama.tamanoy = 640;
-                this.crucigrama.columnas = 20;
-                this.crucigrama.margen = 5;
+                this.crucigrama.columnas = 25;
+                this.crucigrama.margen = 0;
                 this.crucigrama.palabrasSopa = 46;
                 this.crucigrama.margenLateral = 15;
                 this.crucigrama.colorBorde = "Red";
                 this.crucigrama.colorCasillaLetra = "white";
-                this.crucigrama.colorCasillaVacia = "#343434"; /*"#5d6770" #496063*/
+                this.crucigrama.borderC = "gray";
+                this.crucigrama.colorCasillaVacia = "none"; /* "#343434" "#5d6770" "#496063" */
                }
 
   ngOnInit() {

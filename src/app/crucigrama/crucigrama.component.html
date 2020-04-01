@@ -38,7 +38,22 @@
             Crear nuevo tablero
         </div>
     </div>
-    <div *ngFor="let p of lista; let r = index;">
-        <p>{{p.numero}} {{p.palabra}}</p>
+    <div class="tabla" [ngStyle]="{
+        'top': (crucigrama.tamanoy + 100) + 'px'
+    }">
+        <table>
+            <tr>
+                <td>
+                    <div *ngFor="let p of lista; let r = index;">
+                        <p *ngIf="p.orientacion == 0">{{p.numero}} {{p.palabra}} {{p.orientacion}}</p>
+                    </div>
+                </td>
+                <td>
+                    <div *ngFor="let p of lista; let r = index;">
+                        <p *ngIf="p.orientacion == 1">{{p.numero}} {{p.palabra}} {{p.orientacion}}</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

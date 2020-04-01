@@ -7,8 +7,8 @@
 
 .crucigramaPos {
 	display: flex;
-	position: absolute;
 	background: none;
+	/*position: absolute;*/
 	border-radius: 15px;
 	width: 720px;
 	height: 720px;
@@ -21,7 +21,7 @@
 
 .crucigramaLetra {
 	display:flex;
-	position: absolute;
+	/*position: absolute;*/
 	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
@@ -44,4 +44,9 @@
 	position: absolute;
 	font-family: fantasy;
 	width: 134px;
+}
+.tabla {
+	position: absolute;
+	background: black;
+	color: white;
 }

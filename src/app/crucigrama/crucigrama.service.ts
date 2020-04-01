@@ -25,7 +25,7 @@ export class CrucigramaService {
   private calcularStyle(t) {
     t.fontsize = Math.round(t.tamano / 1.2);
     t.borderRadius = Math.floor((t.tamano / 100) * 7);
-    t.border = t.borderRadius * 2;
+    t.border = t.borderRadius;
     return t;
   }
 
@@ -143,6 +143,7 @@ export class CrucigramaService {
           let palabra = new listaP;
           palabra.palabra = p.palabra;
           palabra.numero = contador;
+          palabra.orientacion = p.orientacion;
           lista.push(palabra);
           trying = 0;
         }
@@ -202,6 +203,7 @@ export class CrucigramaService {
           let palabra = new listaP;
           palabra.palabra = p.palabra;
           palabra.numero = contador;
+          palabra.orientacion = p.orientacion;
           lista.push(palabra);
           trying = 0;
         }
@@ -423,6 +425,8 @@ export class CrucigramaService {
           datos[p.posY][p.posX + i].numbero = 0;
           datos[p.posY][p.posX + i].background = t.colorCasillaLetra;
           datos[p.posY][p.posX + i].pborde = "2px black";
+          datos[p.posY][p.posX + i].bcolor = t.borderC;
+          datos[p.posY][p.posX + i].border = t.border;
         }
         datos[p.posY][p.posX + i].uso = true;
         datos[p.posY][p.posX + i].palabra = p.palabra;
@@ -448,6 +452,8 @@ export class CrucigramaService {
           datos[p.posY + i][p.posX].numbero = 0;
           datos[p.posY + i][p.posX].background = t.colorCasillaLetra;
           datos[p.posY + i][p.posX].pborde = "2px black";
+          datos[p.posY + i][p.posX].bcolor = t.borderC;
+          datos[p.posY + i][p.posX].border = t.border;
         }
         datos[p.posY + i][p.posX].uso = true;
         datos[p.posY + i][p.posX].palabra = p.palabra;

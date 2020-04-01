@@ -38,6 +38,7 @@ export class tablero {
   fontsize: number;
   borderRadius: number;
   border: number;
+  borderC: string;
   colorCasillaLetra: string;
   colorCasillaVacia: string;
 }
@@ -58,4 +59,5 @@ export class coincidencia {
 export class listaP {
   palabra: string;
   numero: number;
+  orientacion: number;
 }
