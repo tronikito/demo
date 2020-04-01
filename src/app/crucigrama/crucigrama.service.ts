@@ -9,6 +9,7 @@ export class CrucigramaService {
   constructor() { }
 
   //dependencias crearTablero;
+  //comentario
 
   private calcularC(t) {
     t.marcoLateral = (t.tamanox / 100) * t.marcoLateral;
