@@ -9,7 +9,6 @@ export class CrucigramaService {
   constructor() { }
 
   //dependencias crearTablero;
-  //comentario
 
   private calcularC(t) {
     t.marcoLateral = (t.tamanox / 100) * t.marcoLateral;
@@ -107,6 +106,7 @@ export class CrucigramaService {
 
       p.palabra = palabros[nPalabra].palabra.toUpperCase();
       p.orientacion = Math.round(Math.random());
+      p.vista = false;
 
       coincidencias = this.listarCoincidencias(t, p, datos);
 
@@ -150,7 +150,7 @@ export class CrucigramaService {
       }
       trying++;
     }
-    console.log(lista);
+    console.log(t.fontsize);
     return lista;
   }
 
@@ -158,7 +158,7 @@ export class CrucigramaService {
 
   private generarIslas(n, palabros, t, datos, lista) {
 
-    
+
     let islas = 0;
     if (n > t.columnas) {
       islas = Math.ceil(t.columnas / 10);
@@ -171,21 +171,22 @@ export class CrucigramaService {
       let nPalabra = Math.round(Math.random() * (palabros.length - 1));
       p.palabra = palabros[nPalabra].palabra.toUpperCase();
       p.orientacion = Math.round(Math.random());
+      p.vista = true;
 
       let encontrado = false;
       let trying = 0;
       while (!encontrado && trying <= 100) {
 
         if (p.orientacion == 0) {
-          p.posX = Math.round(Math.random() * ((t.columnas - 1) - p.palabra.length) +1);
+          p.posX = Math.round(Math.random() * ((t.columnas - 1) - p.palabra.length) + 1);
           p.posY = Math.round(Math.random() * (t.filas - 1));
-          console.log(p.posX,p.posY,p.palabra);
         }
         if (p.orientacion == 1) {
           p.posX = Math.round(Math.random() * (t.columnas - 1));
-          p.posY = Math.round(Math.random() * ((t.filas - 1) - p.palabra.length) +1);
-          console.log(p.posX,p.posY,p.palabra);
+          p.posY = Math.round(Math.random() * ((t.filas - 1) - p.palabra.length) + 1);
         }
+        //chapuza le dice que hay una coincidencia en la posicion generada automaticamente para que buscarEspacio() funcione
+        //hay que arreglar buscarEspacio() porque tiene que hacer efecto contrario, no encontrar coincidencias para las islas.
         let coin = new coincidencia;
         let ArrC = new Array;
         coin.posXcheck = p.posX
@@ -197,6 +198,7 @@ export class CrucigramaService {
         encontrado = this.buscarEspacio(ArrC, p, t, datos)
 
         if (encontrado) {
+          //let vista = true;
           contador++;
           this.colocarPalabra(p, t, datos, contador);
           palabros.splice(nPalabra, 1);//borrar de la lista
@@ -309,6 +311,7 @@ export class CrucigramaService {
     let ok = true;
     let x = coin[0].posXcheck;
     let y = coin[0].posYcheck;
+
     let xlimite0 = 1;
     let xlimite1 = 1;
     let ylimite0 = 1;
@@ -411,60 +414,43 @@ export class CrucigramaService {
   }
 
   private colocarPalabra(p, t, datos, contador) {
+    let posX = p.posX;
+    let posY = p.posY;
 
-    if (p.orientacion == 0) {
-      for (var i = -1; i < p.palabra.length; i++) {
-        if (i == -1) {
-          datos[p.posY][p.posX + i].valor = "";
-          datos[p.posY][p.posX + i].numero = contador;
-          datos[p.posY][p.posX + i].background = t.colorCasillaVacia;
-          datos[p.posY][p.posX + i].color = "white";
-          datos[p.posY][p.posX + i].fontsize = t.fontsize / 1.4;
-        } else {
-          datos[p.posY][p.posX + i].valor = p.palabra[i];
-          datos[p.posY][p.posX + i].numbero = 0;
-          datos[p.posY][p.posX + i].background = t.colorCasillaLetra;
-          datos[p.posY][p.posX + i].pborde = "2px black";
-          datos[p.posY][p.posX + i].bcolor = t.borderC;
-          datos[p.posY][p.posX + i].border = t.border;
-        }
-        datos[p.posY][p.posX + i].uso = true;
-        datos[p.posY][p.posX + i].palabra = p.palabra;
-        datos[p.posY][p.posX + i].orientacion = p.orientacion;
-
-        datos[p.posY][p.posX + i].posIni[0] = p.posX;
-        datos[p.posY][p.posX + i].posIni[1] = p.posY;
-        datos[p.posY][p.posX + i].posEnd[0] = p.posX;
-        datos[p.posY][p.posX + i].posEnd[1] = p.posY + p.palabra.length - 1;
+    for (var i = -1; i < p.palabra.length; i++) {
+      if (p.orientacion == 0) posX = p.posX + i;
+      if (p.orientacion == 1) posY = p.posY + i;
+      if (i == -1) {
+        datos[posY][posX].vista = true;
+        datos[posY][posX].valor = "";
+        datos[posY][posX].numero = contador;
+        datos[posY][posX].background = t.colorCasillaVacia;
+        datos[posY][posX].color = "white";
+        datos[posY][posX].fontsize = t.fontsize / 1.4;
+      } else {
+        if (p.vista) datos[posY][posX].vista = true;
+        if (!p.vista) if (datos[posY][posX].vista != true) datos[posY][posX].vista = false;
+        datos[posY][posX].valor = p.palabra[i];
+        datos[posY][posX].numbero = 0;
+        datos[posY][posX].background = t.colorCasillaLetra;
+        datos[posY][posX].pborde = "2px black";
+        datos[posY][posX].bcolor = t.borderC;
+        datos[posY][posX].border = t.border;
       }
-    }
-    if (p.orientacion == 1) {
-      for (var i = -1; i < p.palabra.length; i++) {
-        if (i == -1) {
-          datos[p.posY + i][p.posX].valor = "";
-          datos[p.posY + i][p.posX].numero = contador;
-          datos[p.posY + i][p.posX].background = t.colorCasillaVacia;
-          datos[p.posY + i][p.posX].color = "white";
-          datos[p.posY + i][p.posX].fontsize = t.fontsize / 1.4;
-        }
-        else {
-          datos[p.posY + i][p.posX].valor = p.palabra[i];
-          datos[p.posY + i][p.posX].numbero = 0;
-          datos[p.posY + i][p.posX].background = t.colorCasillaLetra;
-          datos[p.posY + i][p.posX].pborde = "2px black";
-          datos[p.posY + i][p.posX].bcolor = t.borderC;
-          datos[p.posY + i][p.posX].border = t.border;
-        }
-        datos[p.posY + i][p.posX].uso = true;
-        datos[p.posY + i][p.posX].palabra = p.palabra;
-        datos[p.posY + i][p.posX].orientacion = p.orientacion;
+      datos[posY][posX].uso = true;
+      datos[posY][posX].palabra = p.palabra;
+      datos[posY][posX].orientacion = p.orientacion;
+      datos[posY][posX].posIni[0] = p.posX;
+      datos[posY][posX].posIni[1] = p.posY;
 
-        datos[p.posY + i][p.posX].posIni[0] = p.posX;
-        datos[p.posY + i][p.posX].posIni[1] = p.posY;
-        datos[p.posY + i][p.posX].posEnd[0] = p.posX + p.palabra.length - 1;
-        datos[p.posY + i][p.posX].posEnd[1] = p.posY;
+      if (p.orientacion == 0) {
+        datos[posY][posX].posEnd[0] = p.posX;
+        datos[posY][posX].posEnd[1] = p.posY + p.palabra.length - 1;
+      }
+      if (p.orientacion == 1) {
+        datos[posY][posX].posEnd[0] = p.posX + p.palabra.length - 1;
+        datos[posY][posX].posEnd[1] = p.posY;
       }
     }
   }
-
 }

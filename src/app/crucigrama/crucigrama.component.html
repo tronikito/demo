@@ -1,4 +1,7 @@
 <div class="crucigrama">
+    <div [ngStyle]="{
+        'height': (crucigrama.tamanoy/100 * 5) + 'px'
+}"></div>
     <div class="crucigramaPos" *ngIf="datos" [ngStyle]="{
         'width': crucigrama.tamanox + 'px',
         'height': crucigrama.tamanoy + 'px'
@@ -20,37 +23,52 @@
                     'color': letra.color,
                     '-webkit-text-stroke': letra.pborde
                     }">
-                    <p *ngIf="letra.numero == null">{{letra.valor}}</p>
+                    <p *ngIf="letra.numero == null && letra.vista">{{letra.valor}}</p>
                     <p *ngIf="letra.numero > 0">{{letra.numero}}</p>
                 </div>
             </div>
         </div>
+    </div>
+    <div [ngStyle]="{
+        'height': (crucigrama.tamanoy/100 * 15) + 'px'
+}"></div>
+    <div class="info" [ngStyle]="{
+        'height': (crucigrama.tamanox/100 * 5) + 'px',
+        'width': crucigrama.tamanox + 'px',
+        'font-size': (crucigrama.fontsize * 0.7) + 'px'
+    }">
         <div class="tiempo" [ngStyle]="{
-            'top': (crucigrama.tamanoy) + 'px',
-            'left': '10px'
+
         }">
             Load time: {{tiempoR}}
         </div>
         <div class="crear" (click)="crearTablero()" [ngStyle]="{
-            'top': (crucigrama.tamanoy) + 'px',
-            'left':(crucigrama.tamanox - 143) + 'px'
+
         }">
             Crear nuevo tablero
         </div>
     </div>
     <div class="tabla" [ngStyle]="{
-        'top': (crucigrama.tamanoy + 100) + 'px'
+        'width': crucigrama.tamanox + 'px',
+        'font-size': (crucigrama.fontsize * 0.7) + 'px'
     }">
         <table>
             <tr>
+                <th [ngStyle]="{
+                    'background': crucigrama.borderC,
+                    'height': (crucigrama.tamanox/100 * 5) + 'px'
+            
+            }">Horizontales</th><th [ngStyle]="{'background': crucigrama.borderC}">Verticales</th>
+            </tr>
+            <tr>
                 <td>
                     <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 0">{{p.numero}} {{p.palabra}} {{p.orientacion}}</p>
+                        <p *ngIf="p.orientacion == 1">{{p.numero}}.{{p.definicion}}</p>
                     </div>
                 </td>
                 <td>
                     <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 1">{{p.numero}} {{p.palabra}} {{p.orientacion}}</p>
+                        <p *ngIf="p.orientacion == 0">{{p.numero}}.{{p.definicion}}</p>
                     </div>
                 </td>
             </tr>

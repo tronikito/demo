@@ -3,6 +3,7 @@ export class casilla {
   posY: number;
   valor: string;
   number: number;
+  vista: boolean;
   //style
   tamano: number;
   fontsize: number;
@@ -48,6 +49,7 @@ export class palabra {
   posY: number;
   palabra: string;
   orientacion: number;
+  vista: boolean;
 }
 export class coincidencia {
   posXcheck: number;
@@ -60,4 +62,25 @@ export class listaP {
   palabra: string;
   numero: number;
   orientacion: number;
+  definicion: string;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

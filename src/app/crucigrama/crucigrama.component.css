@@ -1,8 +1,14 @@
 .crucigrama {
 	display: flex;
+	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
-	min-height: 80vh;
+	height: 100%;
+	user-select: none; /* supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .crucigramaPos {
@@ -12,11 +18,6 @@
 	border-radius: 15px;
 	width: 720px;
 	height: 720px;
-	user-select: none; /* supported by Chrome and Opera */
-	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .crucigramaLetra {
@@ -34,19 +35,45 @@
 }
 .tiempo {
 	color: white;
-	position: absolute;
+	/*position: absolute;*/
 	font-family: fantasy;
+	width: 67%;
 }
 .crear {
 	text-align: center;
-	border: 0.5px solid white;
+	border: 1px solid black;
 	color: white;
-	position: absolute;
+	background: none;
+	/*position: absolute;*/
 	font-family: fantasy;
-	width: 134px;
+	width: 33%;
+}
+.info {
+	display:flex;
+	/*position: absolute;*/
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
 }
 .tabla {
-	position: absolute;
+	display:flex;
+	border: 1px solid white;
+	flex-flow: column nowrap;
+	background: none;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.info {
+	display:flex;
+	flex-flow: row nowrap;
+	align-items: left;
+	justify-content: left;
 	background: black;
 	color: white;
+}
+.tabla th {
+	width: 50%;
+}
+.tabla td {
+	vertical-align: top;
 }
