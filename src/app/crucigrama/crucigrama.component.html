@@ -8,7 +8,7 @@
     }">
         <div *ngFor="let letras of datos; let r = index;">
             <div *ngFor="let letra of letras; let r = index;">
-                <div class="crucigramaLetra"
+                <div class="crucigramaLetra" (click)="info(letra)"
                 [ngStyle]="{
                     'left': letra.posX + 'px',
                     'top': letra.posY + 'px',

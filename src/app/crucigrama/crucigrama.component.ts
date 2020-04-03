@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { tablero, casilla, listaP } from '../../assets/model/crucigrama.model';
+import { tablero, casilla, palabra } from '../../assets/model/crucigrama.model';
 import { CrucigramaService } from './crucigrama.service';
 import { StylesService } from '../app/styles.service';
 import { Subject } from 'rxjs';
@@ -16,7 +16,7 @@ export class CrucigramaComponent implements OnInit {
   crucigrama: tablero = new tablero;
   tiempoR: any;
   tiempoR$: Subject<any> = new Subject<any>();
-  lista: Array<listaP>;
+  lista: Array<palabra>;
 
   constructor(public CrucigramaService: CrucigramaService,
               public StylesService: StylesService) {
@@ -24,7 +24,7 @@ export class CrucigramaComponent implements OnInit {
                 this.crucigrama.tamanoy = 400;
                 this.crucigrama.columnas = 15;
                 this.crucigrama.margen = 0;
-                this.crucigrama.palabrasSopa = 15;
+                this.crucigrama.palabrasSopa = 46;
                 this.crucigrama.margenLateral = 15;
                 this.crucigrama.colorBorde = "Red";
                 this.crucigrama.colorCasillaLetra = "white";
@@ -67,5 +67,8 @@ export class CrucigramaComponent implements OnInit {
     //this.tiempoR = (tiempoE - tiempoI) + "ms";
     this.tiempoR$.next(this.tiempoR);
 
+  }
+  info(letra) {
+    console.log(letra);
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { casilla, palabra, coincidencia, listaP } from '../../assets/model/crucigrama.model';
+import { casilla, palabra, coincidencia } from '../../assets/model/crucigrama.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class CrucigramaService {
       ln.posY = oldln.posY;
       oldln.posX = ln.posX; //memoria
     }
-    ln.valor = "";
+    ln.valor = null; //<---------------VALOR CASILLAS DEFECTO
     //style
     ln.tamano = t.tamano;
     ln.fontsize = t.fontsize;
@@ -61,9 +61,10 @@ export class CrucigramaService {
 
   public crearTablero(t): Array<Array<casilla>> { //importante ---------------------------------------------------
     let datos = new Array<Array<casilla>>();
-    t = this.calcularC(t); //calcular tamaño casilla según anchura, y recalcular margen
-    t = this.calcularF(t); //calcular filas, intenta dejar un margen parecido, centrando las cuadriculas.
-    t = this.calcularStyle(t); //calcular tamaño fuente, border radius, border
+
+    this.calcularC(t); //calcular tamaño casilla según anchura, y recalcular margen
+    this.calcularF(t); //calcular filas, intenta dejar un margen parecido, centrando las cuadriculas.
+    this.calcularStyle(t); //calcular tamaño fuente, border radius, border
 
     let ln = new casilla;
     ln.posX = t.marcoLateral; //define por donde empieza la tabla;
@@ -95,8 +96,9 @@ export class CrucigramaService {
 
   public generarRespuestas(n, palabros, datos, t) { //importante ------------------------------------------------------------------------
 
-    let lista = new Array<listaP>();
-    let contador = this.generarIslas(n, palabros, t, datos, lista);
+    let lista = new Array<palabra>();
+    let islasT = this.generarIslas(n, palabros, t, datos, lista);
+    let contador = islasT;
     let trying = 0;
 
     while (contador < n && trying <= 100) {
@@ -140,24 +142,65 @@ export class CrucigramaService {
           contador++;
           this.colocarPalabra(p, t, datos, contador);
           palabros.splice(nPalabra, 1);//borrar de la lista
-          let palabra = new listaP;
-          palabra.palabra = p.palabra;
-          palabra.numero = contador;
-          palabra.orientacion = p.orientacion;
-          lista.push(palabra);
+          p.numero = contador;
+          lista.push(p);
+
           trying = 0;
         }
       }
       trying++;
     }
-    console.log(t.fontsize);
+  
+    if (contador < n) { //rellenar huecos vacios //maximo islasT
+
+    }
+    this.checkIslas(islasT, t, datos, lista);
     return lista;
   }
 
   //dependencias de generarRespuestas
 
-  private generarIslas(n, palabros, t, datos, lista) {
+  private checkIslas(islasT, t, datos, lista) {
+    console.log(islasT);
+    let orden = true;
+    for (var e = 0; e < islasT; e++) {
+      this.modificarUso(lista[e], datos, null);
+      if (!this.buscarEspacio(null, lista[e], t, datos)) {
+        this.modificarUso(lista[e], datos, !orden);
+      } else {
+        this.modificarUso(lista[e], datos, orden);
+      }
+    }
+  }
 
+  private modificarUso(p, datos, orden) {
+    let posX;
+    let posY;
+    for (var i = -1; i < p.palabra.length; i++) {
+      if (p.orientacion == 0) {
+        posX = p.posX + i;
+        posY = p.posY;
+      }
+      if (p.orientacion == 1) {
+        posX = p.posX;
+        posY = p.posY + i;
+      }
+      if (orden == null) {
+        datos[posY][posX].uso = false;
+        datos[posY][posX].vista = false;
+      }
+      if (orden == true) {
+        datos[posY][posX].uso = true;
+        datos[posY][posX].vista = false;
+      }
+      if (orden == false) {
+        datos[posY][posX].uso = true;
+        datos[posY][posX].vista = true;
+      }
+    }
+  }
+
+  private generarIslas(n, palabros, t, datos, lista) {
 
     let islas = 0;
     if (n > t.columnas) {
@@ -185,28 +228,16 @@ export class CrucigramaService {
           p.posX = Math.round(Math.random() * (t.columnas - 1));
           p.posY = Math.round(Math.random() * ((t.filas - 1) - p.palabra.length) + 1);
         }
-        //chapuza le dice que hay una coincidencia en la posicion generada automaticamente para que buscarEspacio() funcione
-        //hay que arreglar buscarEspacio() porque tiene que hacer efecto contrario, no encontrar coincidencias para las islas.
-        let coin = new coincidencia;
-        let ArrC = new Array;
-        coin.posXcheck = p.posX
-        coin.posYcheck = p.posY
-        coin.posX = 0;
-        coin.posY = 0;
-        ArrC.push(coin);
 
-        encontrado = this.buscarEspacio(ArrC, p, t, datos)
+        encontrado = this.buscarEspacio(null, p, t, datos);
 
         if (encontrado) {
           //let vista = true;
           contador++;
           this.colocarPalabra(p, t, datos, contador);
           palabros.splice(nPalabra, 1);//borrar de la lista
-          let palabra = new listaP;
-          palabra.palabra = p.palabra;
-          palabra.numero = contador;
-          palabra.orientacion = p.orientacion;
-          lista.push(palabra);
+          p.numero = contador;
+          lista.push(p);
           trying = 0;
         }
         trying++;
@@ -218,27 +249,23 @@ export class CrucigramaService {
   private listarCoincidencias(t, p, datos) { //busca todas las posiciones y lista coincidencias en un array
 
     let coincidenciaList = Array<Array<coincidencia>>();
+    let posicion1;
+    let posicion2;
 
     if (p.orientacion == 0) {
-      for (var y = 1; y < t.filas; y++) { // estoy en la fila
-        for (var x = 1; x < t.columnas - p.palabra.length + 1; x++) {// estoy en la columna
-          let coin = new Array<coincidencia>();
-          coin = this.buscarCoincidencia(x, y, p, datos);
-          if (coin.length > 0) {
-            coincidenciaList.push(coin);
-          }
-        }
-      }
+      posicion1 = t.filas;
+      posicion2 = t.columnas - p.palabra.length + 1;
     }
-
     if (p.orientacion == 1) {
-      for (var y = 1; y < t.filas - p.palabra.length + 1; y++) { // estoy en la fila
-        for (var x = 1; x < t.columnas; x++) {// estoy en la columna
-          let coin = new Array<coincidencia>();
-          coin = this.buscarCoincidencia(x, y, p, datos);
-          if (coin.length > 0) {
-            coincidenciaList.push(coin);
-          }
+      posicion1 = t.filas - p.palabra.length + 1;
+      posicion2 = t.columnas;
+    }
+    for (var y = 1; y < posicion1; y++) { // estoy en la fila
+      for (var x = 1; x < posicion2; x++) {// estoy en la columna
+        let coin = new Array<coincidencia>();
+        coin = this.buscarCoincidencia(x, y, p, datos);
+        if (coin.length > 0) {
+          coincidenciaList.push(coin);
         }
       }
     }
@@ -255,67 +282,69 @@ export class CrucigramaService {
     if (p.orientacion == 0) {
       for (var xcoin = x; xcoin < x + p.palabra.length; xcoin++) {
         if (datos[y][xcoin].valor === p.palabra[contador] && datos[y][xcoin].orientacion != p.orientacion) {
-          let coin = new coincidencia;
-          coin.posX = xcoin;
-          coin.posY = y;
-          coin.valor = p.palabra[contador];
-          coin.posXcheck = x;
-          coin.posYcheck = y;
-          resultado.push(coin);
-          //datos[y][xcoin].background = "blue"; //debugg
+          resultado.push(this.crearCoincidencia(xcoin, x, y, p, contador));
         } else if (datos[y][xcoin].valor === p.palabra[contador] && datos[y][xcoin].orientacion == p.orientacion) {
           fallo = true;
-        } else if (datos[y][xcoin].valor != p.palabra[contador] && datos[y][xcoin].valor != "") {
+        } else if (datos[y][xcoin].valor != p.palabra[contador] && datos[y][xcoin].valor != null) {//<-------------ATENCION NULL VALOR es"""
           fallo = true;
         }
         contador = contador + 1;
-      }
-      if (!fallo) {
-        return resultado;
-      } else {
-        resultado = new Array<coincidencia>();
-        return resultado;
       }
     }
 
     if (p.orientacion == 1) {
       for (var ycoin = y; ycoin < y + p.palabra.length; ycoin++) {
         if (datos[ycoin][x].valor === p.palabra[contador] && datos[ycoin][x].orientacion != p.orientacion) {
-          let coin = new coincidencia;
-          coin.posX = x;
-          coin.posY = ycoin;
-          coin.valor = p.palabra[contador];
-          coin.posXcheck = x;
-          coin.posYcheck = y;
-          resultado.push(coin);
-          //datos[y][xcoin].background = "blue"; //debugg
+          resultado.push(this.crearCoincidencia(ycoin, x, y, p, contador));
         } else if (datos[ycoin][x].valor === p.palabra[contador] && datos[ycoin][x].orientacion == p.orientacion) {
           fallo = true;
-        } else if (datos[ycoin][x].valor != p.palabra[contador] && datos[ycoin][x].valor != "") {
+        } else if (datos[ycoin][x].valor != p.palabra[contador] && datos[ycoin][x].valor != null) {//<-------------ATENCION NULL VALOR es ""
           fallo = true;
         }
         contador = contador + 1;
       }
-      if (!fallo) {
-        return resultado;
-      } else {
-        resultado = new Array<coincidencia>();
-        return resultado;
-      }
     }
+    if (!fallo) {
+      return resultado;
+    } else {
+      resultado = new Array<coincidencia>();
+      return resultado;
+    }
+  }
 
+  private crearCoincidencia(pcoin, x, y, p, contador) {
+    let coin = new coincidencia;
+    if (p.orientacion == 0) {
+      coin.posX = pcoin;
+      coin.posY = y;
+    }
+    if (p.orientacion == 1) {
+      coin.posX = x;
+      coin.posY = pcoin;
+    }
+    coin.valor = p.palabra[contador];
+    coin.posXcheck = x;
+    coin.posYcheck = y;
+    return coin;
   }
 
   private buscarEspacio(coin, p, t, datos) { //entras posicion y busca si la palabra cabe
 
     let ok = true;
-    let x = coin[0].posXcheck;
-    let y = coin[0].posYcheck;
-
+    let x;
+    let y;
     let xlimite0 = 1;
     let xlimite1 = 1;
     let ylimite0 = 1;
     let ylimite1 = 1;
+
+    if (!coin) {
+      x = p.posX;
+      y = p.posY;
+    } else {
+      x = coin[0].posXcheck;
+      y = coin[0].posYcheck;
+    }
 
     if (p.orientacion == 0) {
       if (x == 0) {
@@ -333,9 +362,12 @@ export class CrucigramaService {
       for (var xpalabra = x - xlimite0; xpalabra <= x + p.palabra.length - 1 + xlimite1; xpalabra++) {
 
         let seguir = true;
-        for (var i = 0; i < coin.length; i++) {//comprobar que no sea coincidencia
-          if (xpalabra == coin[i].posX) {
-            seguir = false;
+
+        if (coin) {//si existe coincidencia array, executa la comprobación
+          for (var i = 0; i < coin.length; i++) {//comprobar si es coincidencia
+            if (xpalabra == coin[i].posX) {
+              seguir = false;
+            }
           }
         }
         if (seguir) {
@@ -343,19 +375,19 @@ export class CrucigramaService {
 
             if (xpalabra == x - 1) {
               if (ycheck == y) {
-                if (datos[ycheck][xpalabra].uso) {
+                if (datos[ycheck][xpalabra].uso) {//modifica
                   ok = false;
                 }
               }
             } else if (xpalabra == x + p.palabra.length) {
               if (ycheck == y) {
-                if (datos[ycheck][xpalabra].uso) {
+                if (datos[ycheck][xpalabra].uso && datos[ycheck][xpalabra].valor != null) {//modificado
                   ok = false;
                 }
               }
             }
             if (xpalabra != x - 1 && xpalabra != x + p.palabra.length) {
-              if (datos[ycheck][xpalabra].uso) {
+              if (datos[ycheck][xpalabra].uso && datos[ycheck][xpalabra].valor != null) {//modificado
                 ok = false;
               }
             }
@@ -380,9 +412,11 @@ export class CrucigramaService {
       for (var ypalabra = y - ylimite0; ypalabra <= y + p.palabra.length - 1 + ylimite1; ypalabra++) {
 
         let seguir = true;
-        for (var i = 0; i < coin.length; i++) {//comprobar que no sea coincidencia
-          if (ypalabra == coin[i].posY) {
-            seguir = false;
+        if (coin) {//si existe coincidencia array, executa la comprobación
+          for (var i = 0; i < coin.length; i++) {//comprobar si es coincidencia
+            if (ypalabra == coin[i].posY) {
+              seguir = false;
+            }
           }
         }
         if (seguir) {
@@ -396,13 +430,13 @@ export class CrucigramaService {
               }
             } else if (ypalabra == y + p.palabra.length) {
               if (xcheck == x) {
-                if (datos[ypalabra][xcheck].uso) {
+                if (datos[ypalabra][xcheck].uso && datos[ypalabra][xcheck].valor != null) {//modificado
                   ok = false;
                 }
               }
             }
             if (ypalabra != y - 1 && ypalabra != y + p.palabra.length) {
-              if (datos[ypalabra][xcheck].uso) {
+              if (datos[ypalabra][xcheck].uso && datos[ypalabra][xcheck].valor != null) {//modificado
                 ok = false;
               }
             }
@@ -422,14 +456,14 @@ export class CrucigramaService {
       if (p.orientacion == 1) posY = p.posY + i;
       if (i == -1) {
         datos[posY][posX].vista = true;
-        datos[posY][posX].valor = "";
+        datos[posY][posX].valor = null
         datos[posY][posX].numero = contador;
         datos[posY][posX].background = t.colorCasillaVacia;
         datos[posY][posX].color = "white";
         datos[posY][posX].fontsize = t.fontsize / 1.4;
       } else {
         if (p.vista) datos[posY][posX].vista = true;
-        if (!p.vista) if (datos[posY][posX].vista != true) datos[posY][posX].vista = false;
+        if (!p.vista && datos[posY][posX].vista != true) datos[posY][posX].vista = false;
         datos[posY][posX].valor = p.palabra[i];
         datos[posY][posX].numbero = 0;
         datos[posY][posX].background = t.colorCasillaLetra;

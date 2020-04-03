@@ -50,6 +50,8 @@ export class palabra {
   palabra: string;
   orientacion: number;
   vista: boolean;
+  numero: number;
+  definicion: string;
 }
 export class coincidencia {
   posXcheck: number;
@@ -57,12 +59,6 @@ export class coincidencia {
   posX: number;
   posY: number;
   valor: string;
-}
-export class listaP {
-  palabra: string;
-  numero: number;
-  orientacion: number;
-  definicion: string;
 }
 
 
