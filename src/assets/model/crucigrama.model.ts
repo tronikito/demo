@@ -60,23 +60,3 @@ export class coincidencia {
   posY: number;
   valor: string;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

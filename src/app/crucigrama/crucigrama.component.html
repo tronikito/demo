@@ -24,7 +24,7 @@
                     '-webkit-text-stroke': letra.pborde
                     }">
                     <p *ngIf="letra.numero == null && letra.vista">{{letra.valor}}</p>
-                    <p *ngIf="letra.numero > 0">{{letra.numero}}</p>
+                    <p *ngIf="letra.numero != null">{{letra.numero}}</p>
                 </div>
             </div>
         </div>
@@ -42,9 +42,7 @@
         }">
             Load time: {{tiempoR}}
         </div>
-        <div class="crear" (click)="crearTablero()" [ngStyle]="{
-
-        }">
+        <div class="crear" (click)="crearTablero()">
             Crear nuevo tablero
         </div>
     </div>
@@ -63,12 +61,12 @@
             <tr>
                 <td>
                     <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 1">{{p.numero}}.{{p.definicion}}</p>
+                        <p *ngIf="p.orientacion == 1">{{p.numero}}.{{p.palabra}}</p>
                     </div>
                 </td>
                 <td>
                     <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 0">{{p.numero}}.{{p.definicion}}</p>
+                        <p *ngIf="p.orientacion == 0">{{p.numero}}.{{p.palabra}}</p>
                     </div>
                 </td>
             </tr>

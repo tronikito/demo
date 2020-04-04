@@ -8,6 +8,37 @@ export class CrucigramaService {
 
   constructor() { }
 
+  //######################################### CREAR TABLERO
+
+  public crearTablero(t): Array<Array<casilla>> { //importante ---------------------------------------------------
+    let datos = new Array<Array<casilla>>();
+
+    this.calcularC(t); //calcular tamaño casilla según anchura, y recalcular margen
+    this.calcularF(t); //calcular filas, intenta dejar un margen parecido, centrando las cuadriculas.
+    this.calcularStyle(t); //calcular tamaño fuente, border radius, border
+
+    let ln = new casilla;
+    ln.posX = t.marcoLateral; //define por donde empieza la tabla;
+    ln.posY = t.marcoVertical; //define por donde empieza la tabla;
+    let oldln = new casilla;
+    oldln.posX = ln.posX; //memoria
+    oldln.posY = ln.posY; //memoria
+
+    for (var y = 1; y <= t.filas; y++) {
+      let letras = new Array<casilla>(); //crear nueva fila
+
+      for (var x = 1; x <= t.columnas; x++) {
+        ln = this.generarNuevaLetra(x, y, t, oldln); //genera nueva casilla
+        letras.push(ln); //pushea primera casilla, despues NuevaLetra
+        ln = new casilla;
+      }
+      datos.push(letras); //añade fila completada
+      this.siguienteFila(t, oldln); //cambia posY, resetea posX
+
+    }
+    return datos;
+  }
+
   //dependencias crearTablero;
 
   private calcularC(t) {
@@ -59,49 +90,69 @@ export class CrucigramaService {
     oldln.posY = oldln.posY + t.tamano + t.margen; //memoria
   }
 
-  public crearTablero(t): Array<Array<casilla>> { //importante ---------------------------------------------------
-    let datos = new Array<Array<casilla>>();
-
-    this.calcularC(t); //calcular tamaño casilla según anchura, y recalcular margen
-    this.calcularF(t); //calcular filas, intenta dejar un margen parecido, centrando las cuadriculas.
-    this.calcularStyle(t); //calcular tamaño fuente, border radius, border
-
-    let ln = new casilla;
-    ln.posX = t.marcoLateral; //define por donde empieza la tabla;
-    ln.posY = t.marcoVertical; //define por donde empieza la tabla;
-    let oldln = new casilla;
-    oldln.posX = ln.posX; //memoria
-    oldln.posY = ln.posY; //memoria
-
-    for (var y = 1; y <= t.filas; y++) {
-      let letras = new Array<casilla>(); //crear nueva fila
-
-      for (var x = 1; x <= t.columnas; x++) {
-        ln = this.generarNuevaLetra(x, y, t, oldln); //genera nueva casilla
-        letras.push(ln); //pushea primera casilla, despues NuevaLetra
-        ln = new casilla;
-      }
-      datos.push(letras); //añade fila completada
-      this.siguienteFila(t, oldln); //cambia posY, resetea posX
-
-    }
-    return datos;
-  }
-
   //###########################################################################################################
   //################################################ datos ####################################################
   //###########################################################################################################
 
 
 
-  public generarRespuestas(n, palabros, datos, t) { //importante ------------------------------------------------------------------------
+  public generarRespuestas(n, palabros, datos, t) { // El main (ejecutor de todos los metodos)
 
+    let contador = 0;
     let lista = new Array<palabra>();
-    let islasT = this.generarIslas(n, palabros, t, datos, lista);
-    let contador = islasT;
+    let islas;
+    let trying;
+    let encontrado;
+
+    
+    if (n > t.columnas) islas = Math.ceil(t.columnas / 10); //cuantas generar islas
+    else islas = Math.ceil(n / 10);
+
+    encontrado = false;
+    trying = 0;
+    while (contador < islas && trying <= 10) {//generar un par de islas //si falla 10 palabras diferentes de la lista abandona
+      encontrado = this.generarIslas(contador+1, palabros, t, datos, lista);
+      if (encontrado) contador++, trying = 0;
+      else trying++
+    }
+    
+    encontrado = false;
+    trying = 0;
+    while (contador < n && trying <= 10) {//generar palabras cruzadas //si falla 10 palabras diferentes de la lista abandona
+      encontrado = this.generarPalabras(contador+1, palabros, t, datos, lista);
+      if (encontrado) contador++, trying = 0;
+      else trying++;
+    }
+    
+    for (var i = 0; i < islas; i++) { //comprobar islas existentes que no esten solas para ocultar
+      this.checkIslas(t, datos, lista[i]);
+    }
+
+    if (contador < n) { //generar mas islas para los huecos vacios. //si falla 10 palabras diferentes de la lista abandona
+      encontrado = false;
+      trying = 0;
+      while (contador < n && trying <= 10) { 
+        encontrado = this.generarIslas(contador+1, palabros, t, datos, lista);
+          if (encontrado) {
+            contador++, trying = 0;
+            this.checkIslas(t, datos, lista[contador-1]);
+          }
+          else trying++;
+          if (trying == 100) n -= 1;
+        }
+      }
+    return lista;
+  }
+
+  //######################################### PALABRAS CRUZADAS
+
+  private generarPalabras(contador,palabros, t, datos, lista) {//genera palabras cruzadas
+
+    let encontrado = false;
     let trying = 0;
 
-    while (contador < n && trying <= 100) {
+    let end = palabros.length/2;
+    while (!encontrado && trying <= end) {//comprueba la mitad de palabras que quedan por poner
       let coincidencias = Array<Array<coincidencia>>();
       let p = new palabra;
       let nPalabra = Math.round(Math.random() * (palabros.length - 1));
@@ -118,9 +169,7 @@ export class CrucigramaService {
           mayor = i;
         }
       }
-      let encontrado = false;
       while (!encontrado && coincidencias.length > 0) {
-
         encontrado = this.buscarEspacio(coincidencias[mayor], p, t, datos)
         if (!encontrado) {
           coincidencias.splice(mayor, 1);
@@ -134,119 +183,24 @@ export class CrucigramaService {
             }
           }
         }
-        if (!encontrado && coincidencias.length == 0) {
-        }
         if (encontrado) {
           p.posX = coincidencias[mayor][0].posXcheck;
           p.posY = coincidencias[mayor][0].posYcheck;
-          contador++;
           this.colocarPalabra(p, t, datos, contador);
           palabros.splice(nPalabra, 1);//borrar de la lista
           p.numero = contador;
           lista.push(p);
-
           trying = 0;
         }
       }
       trying++;
+      }
+      return encontrado;
     }
-  
-    if (contador < n) { //rellenar huecos vacios //maximo islasT
+    
+  //dependencias de generarPalabras
 
-    }
-    this.checkIslas(islasT, t, datos, lista);
-    return lista;
-  }
-
-  //dependencias de generarRespuestas
-
-  private checkIslas(islasT, t, datos, lista) {
-    console.log(islasT);
-    let orden = true;
-    for (var e = 0; e < islasT; e++) {
-      this.modificarUso(lista[e], datos, null);
-      if (!this.buscarEspacio(null, lista[e], t, datos)) {
-        this.modificarUso(lista[e], datos, !orden);
-      } else {
-        this.modificarUso(lista[e], datos, orden);
-      }
-    }
-  }
-
-  private modificarUso(p, datos, orden) {
-    let posX;
-    let posY;
-    for (var i = -1; i < p.palabra.length; i++) {
-      if (p.orientacion == 0) {
-        posX = p.posX + i;
-        posY = p.posY;
-      }
-      if (p.orientacion == 1) {
-        posX = p.posX;
-        posY = p.posY + i;
-      }
-      if (orden == null) {
-        datos[posY][posX].uso = false;
-        datos[posY][posX].vista = false;
-      }
-      if (orden == true) {
-        datos[posY][posX].uso = true;
-        datos[posY][posX].vista = false;
-      }
-      if (orden == false) {
-        datos[posY][posX].uso = true;
-        datos[posY][posX].vista = true;
-      }
-    }
-  }
-
-  private generarIslas(n, palabros, t, datos, lista) {
-
-    let islas = 0;
-    if (n > t.columnas) {
-      islas = Math.ceil(t.columnas / 10);
-    } else {
-      islas = Math.ceil(n / 10);
-    }
-    let contador = 0;
-    for (var u = 0; u < islas; u++) {
-      let p = new palabra;
-      let nPalabra = Math.round(Math.random() * (palabros.length - 1));
-      p.palabra = palabros[nPalabra].palabra.toUpperCase();
-      p.orientacion = Math.round(Math.random());
-      p.vista = true;
-
-      let encontrado = false;
-      let trying = 0;
-      while (!encontrado && trying <= 100) {
-
-        if (p.orientacion == 0) {
-          p.posX = Math.round(Math.random() * ((t.columnas - 1) - p.palabra.length) + 1);
-          p.posY = Math.round(Math.random() * (t.filas - 1));
-        }
-        if (p.orientacion == 1) {
-          p.posX = Math.round(Math.random() * (t.columnas - 1));
-          p.posY = Math.round(Math.random() * ((t.filas - 1) - p.palabra.length) + 1);
-        }
-
-        encontrado = this.buscarEspacio(null, p, t, datos);
-
-        if (encontrado) {
-          //let vista = true;
-          contador++;
-          this.colocarPalabra(p, t, datos, contador);
-          palabros.splice(nPalabra, 1);//borrar de la lista
-          p.numero = contador;
-          lista.push(p);
-          trying = 0;
-        }
-        trying++;
-      }
-    }
-    return contador;
-  }
-
-  private listarCoincidencias(t, p, datos) { //busca todas las posiciones y lista coincidencias en un array
+  private listarCoincidencias(t, p, datos) {//busca todas las posiciones y lista coincidencias en un array
 
     let coincidenciaList = Array<Array<coincidencia>>();
     let posicion1;
@@ -273,7 +227,7 @@ export class CrucigramaService {
     return coincidenciaList;
   }
 
-  private buscarCoincidencia(x, y, p, datos) {// mandas ubicacion y te busca las coincidencias con la palabra
+  private buscarCoincidencia(x, y, p, datos) {//mandas ubicacion y te busca las coincidencias con la palabra
 
     let resultado = new Array<coincidencia>();
     let contador = 0;
@@ -285,7 +239,7 @@ export class CrucigramaService {
           resultado.push(this.crearCoincidencia(xcoin, x, y, p, contador));
         } else if (datos[y][xcoin].valor === p.palabra[contador] && datos[y][xcoin].orientacion == p.orientacion) {
           fallo = true;
-        } else if (datos[y][xcoin].valor != p.palabra[contador] && datos[y][xcoin].valor != null) {//<-------------ATENCION NULL VALOR es"""
+        } else if (datos[y][xcoin].valor != p.palabra[contador] && datos[y][xcoin].valor != null) {
           fallo = true;
         }
         contador = contador + 1;
@@ -298,7 +252,7 @@ export class CrucigramaService {
           resultado.push(this.crearCoincidencia(ycoin, x, y, p, contador));
         } else if (datos[ycoin][x].valor === p.palabra[contador] && datos[ycoin][x].orientacion == p.orientacion) {
           fallo = true;
-        } else if (datos[ycoin][x].valor != p.palabra[contador] && datos[ycoin][x].valor != null) {//<-------------ATENCION NULL VALOR es ""
+        } else if (datos[ycoin][x].valor != p.palabra[contador] && datos[ycoin][x].valor != null) {
           fallo = true;
         }
         contador = contador + 1;
@@ -312,7 +266,7 @@ export class CrucigramaService {
     }
   }
 
-  private crearCoincidencia(pcoin, x, y, p, contador) {
+  private crearCoincidencia(pcoin, x, y, p, contador) {//crea coincidencia para añadirla al array de la posicion
     let coin = new coincidencia;
     if (p.orientacion == 0) {
       coin.posX = pcoin;
@@ -326,6 +280,88 @@ export class CrucigramaService {
     coin.posXcheck = x;
     coin.posYcheck = y;
     return coin;
+  }
+
+  //######################################### ISLAS
+
+  private generarIslas(contador, palabros, t, datos, lista) {
+
+    let p = new palabra;
+    let nPalabra = Math.round(Math.random() * (palabros.length - 1));
+    p.palabra = palabros[nPalabra].palabra.toUpperCase();
+    p.orientacion = Math.round(Math.random());
+    p.vista = true;
+
+    let limit;
+    let encontrado = false;
+    let trying = 0;
+    if (t.columnas >= t.filas) limit = Math.ceil(t.columnas/2);
+    if (t.filas >= t.columnas) limit = Math.ceil(t.filas/2);
+    while (!encontrado && trying <= limit) {//limite por palabra generada
+
+      if (p.orientacion == 0) {
+        p.posX = Math.round(Math.random() * ((t.columnas - 1) - p.palabra.length) + 1);
+        //p.posY = Math.round(Math.random() * (t.filas - 1));
+        p.posY = Math.round(Math.random() * (t.filas - 2) + 1);  //generar islas mas interior para que pueda crearse coincidencias
+      }
+      if (p.orientacion == 1) {
+        //p.posX = Math.round(Math.random() * (t.columnas - 1));
+        p.posX = Math.round(Math.random() * (t.columnas - 2) + 1); //generar islas mas interior para que pueda crearse coincidencias
+        p.posY = Math.round(Math.random() * ((t.filas - 1) - p.palabra.length) + 1);
+      }
+
+      encontrado = this.buscarEspacio(null, p, t, datos);
+
+      if (encontrado) {
+        this.colocarPalabra(p, t, datos, contador);
+        palabros.splice(nPalabra, 1);//borrar de la lista
+        p.numero = contador;
+        lista.push(p);
+        trying = 0;
+      }//añadir descuento si fail
+      trying++;
+    }
+    return encontrado;
+  }
+
+  //dependencias de generarIslas
+
+  private checkIslas(t, datos, p) {
+    let orden = true;
+    this.modificarUso(p, datos, null);
+    if (!this.buscarEspacio(null, p, t, datos)) {
+      this.modificarUso(p, datos, !orden);
+    } else {
+      this.modificarUso(p, datos, orden);
+    }
+  }
+
+
+  private modificarUso(p, datos, orden) {
+    let posX;
+    let posY;
+    for (var i = -1; i < p.palabra.length; i++) {
+      if (p.orientacion == 0) {
+        posX = p.posX + i;
+        posY = p.posY;
+      }
+      if (p.orientacion == 1) {
+        posX = p.posX;
+        posY = p.posY + i;
+      }
+      if (orden == null) {
+        datos[posY][posX].uso = false;
+        datos[posY][posX].vista = false;
+      }
+      if (orden == true) {
+        datos[posY][posX].uso = true;
+        datos[posY][posX].vista = false;
+      }
+      if (orden == false) {
+        datos[posY][posX].uso = true;
+        datos[posY][posX].vista = true;
+      }
+    }
   }
 
   private buscarEspacio(coin, p, t, datos) { //entras posicion y busca si la palabra cabe
@@ -447,6 +483,8 @@ export class CrucigramaService {
     return ok;
   }
 
+  //######################################### Dependencia de generarPalabras y generarIslas
+
   private colocarPalabra(p, t, datos, contador) {
     let posX = p.posX;
     let posY = p.posY;
@@ -465,7 +503,7 @@ export class CrucigramaService {
         if (p.vista) datos[posY][posX].vista = true;
         if (!p.vista && datos[posY][posX].vista != true) datos[posY][posX].vista = false;
         datos[posY][posX].valor = p.palabra[i];
-        datos[posY][posX].numbero = 0;
+        datos[posY][posX].numero = null;
         datos[posY][posX].background = t.colorCasillaLetra;
         datos[posY][posX].pborde = "2px black";
         datos[posY][posX].bcolor = t.borderC;

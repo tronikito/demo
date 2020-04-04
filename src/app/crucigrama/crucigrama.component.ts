@@ -20,11 +20,11 @@ export class CrucigramaComponent implements OnInit {
 
   constructor(public CrucigramaService: CrucigramaService,
               public StylesService: StylesService) {
-                this.crucigrama.tamanox = 400;
-                this.crucigrama.tamanoy = 400;
-                this.crucigrama.columnas = 15;
+                this.crucigrama.tamanox = 640;
+                this.crucigrama.tamanoy = 640;
+                this.crucigrama.columnas = 35;
                 this.crucigrama.margen = 0;
-                this.crucigrama.palabrasSopa = 46;
+                this.crucigrama.palabrasSopa = 0;
                 this.crucigrama.margenLateral = 15;
                 this.crucigrama.colorBorde = "Red";
                 this.crucigrama.colorCasillaLetra = "white";
@@ -57,6 +57,7 @@ export class CrucigramaComponent implements OnInit {
     for (var i = 0; i < this.palabras.length; i++) {
       palabras.push(this.palabras[i]);
     }
+    this.crucigrama.palabrasSopa = this.palabras.length;
 
     if (this.datos) {
       this.lista = this.CrucigramaService.generarRespuestas(this.crucigrama.palabrasSopa,palabras,this.datos,this.crucigrama);
@@ -64,7 +65,7 @@ export class CrucigramaComponent implements OnInit {
 
     let tiempoE = new Date();
     tiempoE.getTime();
-    //this.tiempoR = (tiempoE - tiempoI) + "ms";
+    this.tiempoR = (tiempoE - tiempoI) + "ms";
     this.tiempoR$.next(this.tiempoR);
 
   }
