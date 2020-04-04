@@ -3,6 +3,7 @@
 	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
+	align-content: space-around;
 	height: 100%;
 	user-select: none; /* supported by Chrome and Opera */
 	-webkit-user-select: none; /* Safari */
@@ -35,6 +36,8 @@
 }
 
 .tabla {
+	display: flex;
+	text-align: center;
 	background: none;
 	color: white;
 	font-family: Arial, Helvetica, sans-serif;
@@ -50,4 +53,21 @@
 	transform-origin: left bottom -100%;*/
 	background: gray;
 	text-transform: uppercase;
+}
+.info {
+	padding-top: 15px;
+	text-align: center;
+	/*transform: rotate(-90deg);
+	transform-origin: left bottom -100%;*/
+	background: none;
+	text-transform: uppercase;
+	vertical-align: text-top;
+}
+.crear {
+	background: white;
+	color: black;
+}
+.tiempo {
+	background: white;
+	color: black;
 }

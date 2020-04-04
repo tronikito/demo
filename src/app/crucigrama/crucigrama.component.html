@@ -33,33 +33,32 @@
         'width': crucigrama.tamanox + 'px',
         'font-size': (crucigrama.fontsize * 0.7) + 'px'
     }">
-        <div class="tiempo" [ngStyle]="{
-
-        }">
+        <div class="tiempo" [ngStyle]="{}">
             Load time: {{tiempoR}}
         </div>
         <div class="crear" (click)="crearTablero()">
             Crear nuevo tablero
         </div>
     </div>
-    <div class="tabla" [ngStyle]="{}"><!--'width': crucigrama.tamanox + 'px','font-size': (crucigrama.fontsize * 0.7) + 'px'-->
+    <div class="tabla" [ngStyle]="{}">
+        <!--'width': crucigrama.tamanox + 'px','font-size': (crucigrama.fontsize * 0.7) + 'px'-->
         <table>
             <tr>
-                <td class="cabecera">
+                <td>
                     <div [ngStyle]="{'background': crucigrama.borderC}">
                         H
                     </div>
                 </td>
                 <td>
-                    <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 1">{{p.numero}}.&nbsp;&nbsp;{{p.definicion}}</p>
+                    <div [ngStyle]="{'background': crucigrama.borderC}">
+                        V
                     </div>
                 </td>
             </tr>
             <tr>
-                <td class="cabecera">
-                    <div [ngStyle]="{'background': crucigrama.borderC}">
-                        V
+                <td>
+                    <div *ngFor="let p of lista; let r = index;">
+                        <p *ngIf="p.orientacion == 1">{{p.numero}}.&nbsp;&nbsp;{{p.definicion}}</p>
                     </div>
                 </td>
                 <td>
