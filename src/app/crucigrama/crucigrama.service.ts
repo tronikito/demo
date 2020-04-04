@@ -43,19 +43,19 @@ export class CrucigramaService {
 
   private calcularC(t) {
     t.marcoLateral = (t.tamanox / 100) * t.marcoLateral;
-    t.tamano = Math.floor((t.tamanox - (t.margenLateral + (t.margen * (t.columnas - 1)))) / t.columnas);
-    t.marcoLateral = Math.floor((t.tamanox - ((t.tamano * t.columnas) + (t.margen * (t.columnas - 1)))) / 2);
+    t.tamano = ((t.tamanox - (t.margenLateral + (t.margen * (t.columnas - 1)))) / t.columnas);
+    t.marcoLateral =(t.tamanox - ((t.tamano * t.columnas) + (t.margen * (t.columnas - 1)))) / 2;
     return t;
   }
   private calcularF(t) {
-    t.filas = Math.floor((((t.tamanoy - (t.marcoLateral * 2)) + t.margen) / (t.tamano + t.margen)));
-    t.marcoVertical = Math.floor((t.tamanoy - ((t.tamano * t.filas) + (t.margen * (t.filas - 1)))) / 2);
+    t.filas = (((t.tamanoy - (t.marcoLateral * 2)) + t.margen) / (t.tamano + t.margen));
+    t.marcoVertical = (t.tamanoy - ((t.tamano * t.filas) + (t.margen * (t.filas - 1)))) / 2;
     return t;
   }
   private calcularStyle(t) {
-    t.fontsize = Math.round(t.tamano / 1.2);
-    t.borderRadius = Math.floor((t.tamano / 100) * 7);
-    t.border = t.borderRadius;
+    t.fontsize = t.tamano / 1.2;
+    t.borderRadius = 0;/*Math.ceil((t.tamano / 100) * 7);*/
+    t.border = (t.tamano / 100) * 7; /* t.borderRadius;*/
     return t;
   }
 
@@ -93,8 +93,6 @@ export class CrucigramaService {
   //###########################################################################################################
   //################################################ datos ####################################################
   //###########################################################################################################
-
-
 
   public generarRespuestas(n, palabros, datos, t) { // El main (ejecutor de todos los metodos)
 
@@ -159,6 +157,7 @@ export class CrucigramaService {
 
       p.palabra = palabros[nPalabra].palabra.toUpperCase();
       p.orientacion = Math.round(Math.random());
+      p.definicion = palabros[nPalabra].definicion;
       p.vista = false;
 
       coincidencias = this.listarCoincidencias(t, p, datos);
@@ -290,6 +289,7 @@ export class CrucigramaService {
     let nPalabra = Math.round(Math.random() * (palabros.length - 1));
     p.palabra = palabros[nPalabra].palabra.toUpperCase();
     p.orientacion = Math.round(Math.random());
+    p.definicion = palabros[nPalabra].definicion;
     p.vista = true;
 
     let limit;

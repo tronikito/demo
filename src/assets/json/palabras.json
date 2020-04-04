@@ -1,146 +1,192 @@
 [
     {
-        "palabra": "cacatua"
+        "palabra": "cacatua",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "halcon"
+        "palabra": "halcon",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "elefante"
+        "palabra": "elefante",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "murcielago"
+        "palabra": "murcielago",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "gusano"
+        "palabra": "gusano",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "ballena"
+        "palabra": "ballena",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "rinoceronte"
+        "palabra": "rinoceronte",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "conejo"
+        "palabra": "conejo",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "dinosaurio"
+        "palabra": "dinosaurio",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "guepardo"
+        "palabra": "guepardo",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "hormiga"
+        "palabra": "hormiga",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "araña"
+        "palabra": "araña",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "delfin"
+        "palabra": "delfin",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "rata"
+        "palabra": "rata",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "camello"
+        "palabra": "camello",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "dromedario"
+        "palabra": "dromedario",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "tortuga"
+        "palabra": "tortuga",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra": "torpedo"
+        "palabra": "torpedo",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },   
     {
-        "palabra":"mamut"
+        "palabra":"mamut",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"cienpies"
+        "palabra":"cienpies",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"marmota"
+        "palabra":"marmota",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"caracol"
+        "palabra":"caracol",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"lombriz"
+        "palabra":"lombriz",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
     ,
     {
-        "palabra":"dados"
+        "palabra":"dados",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
     ,
     {
-        "palabra":"campamento"
+        "palabra":"campamento",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
     ,
     {
-        "palabra":"limon"
+        "palabra":"limon",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
     ,
     {
-        "palabra":"patata"
+        "palabra":"patata",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
     ,
     {
-        "palabra":"arcoiris"
+        "palabra":"arcoiris",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
     ,
     {
-        "palabra":"girasol"
+        "palabra":"girasol",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"luna"
+        "palabra":"luna",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"sarampion"
+        "palabra":"sarampion",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"tobogan"
+        "palabra":"tobogan",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"lapiz"
+        "palabra":"lapiz",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"gominola"
+        "palabra":"gominola",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"jaramago"
+        "palabra":"jaramago",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"felicidad"
+        "palabra":"felicidad",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"carpeta"
+        "palabra":"carpeta",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"sombrilla"
+        "palabra":"sombrilla",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"tiburon"
+        "palabra":"tiburon",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"gisantes"
+        "palabra":"gisantes",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"clavel"
+        "palabra":"clavel",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"calamar"
+        "palabra":"calamar",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"hospital"
+        "palabra":"hospital",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"lampara"
+        "palabra":"lampara",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"mariposa"
+        "palabra":"mariposa",
+        "definicion": "Animal que vive en el mar, el mas grande"
     },
     {
-        "palabra":"gallina"
+        "palabra":"gallina",
+        "definicion": "Animal que vive en el mar, el mas grande"
     }
 ]

@@ -22,7 +22,7 @@ export class CrucigramaComponent implements OnInit {
               public StylesService: StylesService) {
                 this.crucigrama.tamanox = 640;
                 this.crucigrama.tamanoy = 640;
-                this.crucigrama.columnas = 35;
+                this.crucigrama.columnas = 20;
                 this.crucigrama.margen = 0;
                 this.crucigrama.palabrasSopa = 0;
                 this.crucigrama.margenLateral = 15;
@@ -65,7 +65,7 @@ export class CrucigramaComponent implements OnInit {
 
     let tiempoE = new Date();
     tiempoE.getTime();
-    this.tiempoR = (tiempoE - tiempoI) + "ms";
+    //this.tiempoR = (tiempoE - tiempoI) + "ms";
     this.tiempoR$.next(this.tiempoR);
 
   }

@@ -8,8 +8,7 @@
     }">
         <div *ngFor="let letras of datos; let r = index;">
             <div *ngFor="let letra of letras; let r = index;">
-                <div class="crucigramaLetra" (click)="info(letra)"
-                [ngStyle]="{
+                <div class="crucigramaLetra" (click)="info(letra)" [ngStyle]="{
                     'left': letra.posX + 'px',
                     'top': letra.posY + 'px',
                     'width': letra.tamano + 'px',
@@ -29,11 +28,8 @@
             </div>
         </div>
     </div>
-    <div [ngStyle]="{
-        'height': (crucigrama.tamanoy/100 * 15) + 'px'
-}"></div>
     <div class="info" [ngStyle]="{
-        'height': (crucigrama.tamanox/100 * 5) + 'px',
+        'height': (crucigrama.tamanox/100 * 10) + 'px',
         'width': crucigrama.tamanox + 'px',
         'font-size': (crucigrama.fontsize * 0.7) + 'px'
     }">
@@ -46,27 +42,29 @@
             Crear nuevo tablero
         </div>
     </div>
-    <div class="tabla" [ngStyle]="{
-        'width': crucigrama.tamanox + 'px',
-        'font-size': (crucigrama.fontsize * 0.7) + 'px'
-    }">
+    <div class="tabla" [ngStyle]="{}"><!--'width': crucigrama.tamanox + 'px','font-size': (crucigrama.fontsize * 0.7) + 'px'-->
         <table>
             <tr>
-                <th [ngStyle]="{
-                    'background': crucigrama.borderC,
-                    'height': (crucigrama.tamanox/100 * 5) + 'px'
-            
-            }">Horizontales</th><th [ngStyle]="{'background': crucigrama.borderC}">Verticales</th>
-            </tr>
-            <tr>
-                <td>
-                    <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 1">{{p.numero}}.{{p.palabra}}</p>
+                <td class="cabecera">
+                    <div [ngStyle]="{'background': crucigrama.borderC}">
+                        H
                     </div>
                 </td>
                 <td>
                     <div *ngFor="let p of lista; let r = index;">
-                        <p *ngIf="p.orientacion == 0">{{p.numero}}.{{p.palabra}}</p>
+                        <p *ngIf="p.orientacion == 1">{{p.numero}}.&nbsp;&nbsp;{{p.definicion}}</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="cabecera">
+                    <div [ngStyle]="{'background': crucigrama.borderC}">
+                        V
+                    </div>
+                </td>
+                <td>
+                    <div *ngFor="let p of lista; let r = index;">
+                        <p *ngIf="p.orientacion == 0">{{p.numero}}.&nbsp;&nbsp;{{p.definicion}}</p>
                     </div>
                 </td>
             </tr>
