@@ -8,13 +8,13 @@ Por Kevin Fernandez Muñoz
 Primer proyecto personal en angular8, para aprender, desarrollando varios juegos muy basicos,
 sopa de letras, crucigramas, y memory.
 
-2. Crucigrama:</br></br>
+1. Crucigrama:</br></br>
     <img src="https://github.com/tronikito/demo/raw/master/mockup.png" alt="Mockup" width="600"/>
 2. Sopa de Letras:</br></br>
     <img src="https://github.com/tronikito/demo/raw/master/mockup2.png" alt="Mockup" width="600"/>
-2. Sopa de Letras:</br></br>
+3. Sopa de Letras:</br></br>
     <img src="https://github.com/tronikito/demo/raw/master/mockup3.png" alt="Mockup" width="600"/>
-2. Memory:</br></br>
+4. Memory:</br></br>
     <img src="https://github.com/tronikito/demo/raw/master/mockup4.png" alt="Mockup" width="600"/>
     
 
